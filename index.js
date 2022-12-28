@@ -31,18 +31,12 @@ app.post("/add",
             contacts.push(neueDaten)
 
             console.log(contacts)
-            // res.render("index", { persons: contacts })
-            //Daten in eine neue Json Datei schreiben:
-            // let data = JSON.stringify(contacts, null, 2);
-            // let data2 = data.concat(data2)
             fs.writeFileSync('./public/data/data.json', JSON.stringify(contacts, null, 2), (err) => {
                 if (err) console.log(err)
             })
-            // ohne sync beim writeFile schreibt er es mir in den Brower aber nicht in die Json.
             res.render("index", { contacts, Error: { errors } })
         })
     })
 app.listen(PORT, (() => {
-
     console.log("server läuft auf ", PORT)
 }))

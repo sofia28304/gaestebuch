@@ -21,12 +21,15 @@ app.post("/add",
     // body('zeit').isDate(new Date()),
     (req, res) => {
         const errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            return res.render("index", { persons: contacts, errors })
-        }
+        // if (!errors.isEmpty()) {
+        //     return res.render("index", { contacts, errors })
+        // }
         fs.readFile("./public/data/data.json", (err, data) => {
             if (err) console.log(err)
             contacts = JSON.parse(data)
+            if (!errors.isEmpty()) {
+                return res.render("index", { contacts, errors })
+            }
             const neueDaten = { name: req.body.personname, kommentar: req.body.kommentar }
             contacts.push(neueDaten)
 
@@ -35,7 +38,9 @@ app.post("/add",
                 if (err) console.log(err)
             })
             res.render("index", { contacts, Error: { errors } })
+            contacts = []
         })
+
     })
 app.listen(PORT, (() => {
     console.log("server läuft auf ", PORT)
